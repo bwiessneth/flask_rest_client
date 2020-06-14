@@ -1,0 +1,5 @@
+ENV/
+__pycache__/
+*.pid
+*.pyc
+*.db
