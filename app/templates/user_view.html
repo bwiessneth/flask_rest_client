@@ -1,0 +1,25 @@
+{% extends "page.html" %}
+
+{% block content %}
+<div class="container">
+	<div class="card" style="margin-top: 1em">
+		<div class="card-header">
+			View user
+		</div>
+		<div class="card-body">
+			<form>
+			{% for key, val in user.items() %}
+			<div class="form-group row">
+				<label for="{{ key }}" class="col-sm-2 col-form-label">{{ key }}</label>
+				<div class="col-sm-10">
+					<input type="text" readonly class="form-control" id="{{ key }}" value="{{val}}">
+				</div>
+			</div>
+			{% endfor %}
+			</form>
+			<a href="{{ url_for('user_update', user_id = user.id )}}" class="btn btn-secondary">Edit</a>
+			<a href="{{ url_for('user_delete', user_id = user.id )}}" class="btn btn-danger">Delete</a>			
+		</div>
+	</div>
+</div>
+{% endblock %}

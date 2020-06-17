@@ -1,0 +1,26 @@
+{% extends "page.html" %}
+
+{% block content %}
+<div class="container">
+	<div class="card" style="margin-top: 1em">
+		<div class="card-header">
+			Create user
+		</div>
+		<div class="card-body">
+			<form action="{{ url_for('user_create') }}" method="post">
+			{% for key, val in user.items() %}
+			<div class="form-group row">
+				<label for="{{ key }}" class="col-sm-2 col-form-label">{{ key }}</label>
+				<div class="col-sm-10">
+					<input type="text" class="form-control" id="{{ key }}" name="{{ key }}" value="">
+				</div>
+			</div>
+			{% endfor %}
+    		<button type="submit" class="btn btn-primary">Submit</button>
+			</form>
+    		<!-- <a href="{{ url_for('user_create') }}" class="btn btn-primary">Add</a> -->
+    		<!-- <input type="submit" value="Submit"> -->
+		</div>
+	</div>
+</div>
+{% endblock %}
