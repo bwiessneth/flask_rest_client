@@ -4,17 +4,30 @@
 {% block content %}
 <div class="container">
 	<a href="{{ url_for('user_create' )}}" class="btn btn-primary">Add User</a>
-	{% for user in users %}
-	<div class="card" style="margin-top: 1em">
-		<div class="card-body">
-			<h5 class="card-title">{{ user.username }}</h5>
-			<h6 class="card-subtitle mb-2 text-muted">{{ user.email }}</h6>
-			<p class="card-text">{{ user.id }}</p>
-			<a href="{{ url_for('user', user_id = user.id )}}" class="btn btn-primary">View</a>
-			<a href="{{ url_for('user_update', user_id = user.id )}}" class="btn btn-secondary">Edit</a>
-			<a href="{{ url_for('user_delete', user_id = user.id )}}" class="btn btn-danger">Delete</a>
-		</div>
-	</div>	        
-	{% endfor %}
+	
+	<table class="table table-striped" style="margin-top: 1em">
+		<thead>
+			<tr>
+				<th scope="col">ID</th>
+				<th scope="col">Username</th>
+				<th scope="col">Email</th>
+				<th scope="col">Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for user in users %}
+		<tr>
+			<th scope="row">{{ user.id }}</th>
+			<td>{{ user.username }}</td>
+			<td>{{ user.email }}</td>
+			<td>
+				<a href="{{ url_for('user', user_id = user.id )}}" class="btn btn-primary">View</a>
+				<a href="{{ url_for('user_update', user_id = user.id )}}" class="btn btn-secondary">Edit</a>
+				<a href="{{ url_for('user_delete', user_id = user.id )}}" class="btn btn-danger">Delete</a>
+			</td>
+		</tr>
+		{% endfor %}
+		</tbody>
+	</table>
 </div>
 {% endblock %}

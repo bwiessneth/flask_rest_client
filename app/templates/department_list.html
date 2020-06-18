@@ -4,39 +4,30 @@
 {% block content %}
 <div class="container">
 	<a href="{{ url_for('department_create' )}}" class="btn btn-primary">Add Department</a>
-	{% for department in departments %}
-	<div class="card" style="margin-top: 1em">
-		<div class="card-body">
-			<h5 class="card-title">{{ department.name }}</h5>
-			<h6 class="card-subtitle mb-2 text-muted">{{ department.users|length }}</h6>
-			<!-- <p class="card-text">{{ department.id }}</p> -->
-			<a href="{{ url_for('department', department_id = department.id )}}" class="btn btn-primary">View</a>
-			<a href="{{ url_for('department_update', department_id = department.id )}}" class="btn btn-secondary">Edit</a>
-			<a href="{{ url_for('department_delete', department_id = department.id )}}" class="btn btn-danger">Delete</a>
-		</div>
-	</div>
-	{% endfor %}
-
-	{% for department in departments %}
-	<table class="table table-striped">
-  		<thead>
-    		<tr>
-      			<th scope="col">#</th>
-      			<th scope="col">First</th>
-      			<th scope="col">Last</th>
-      			<th scope="col">Handle</th>
-    		</tr>
-  		</thead>
-  		<tbody>
-    	<tr>
-      		<th scope="row">1</th>
-      		<td>Mark</td>
-      		<td>Otto</td>
-      		<td>@mdo</td>
-    	</tr>
-  		</tbody>
+	
+	<table class="table table-striped" style="margin-top: 1em">
+		<thead>
+			<tr>
+				<th scope="col">ID</th>
+				<th scope="col">Department</th>
+				<th scope="col">No. of users</th>
+				<th scope="col">Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+		{% for department in departments %}  			
+		<tr>
+			<th scope="row">{{ department.id }}</th>
+			<td>{{ department.name }}</td>
+			<td>{{ department.users|length }}</td>
+			<td>
+				<a href="{{ url_for('department', department_id = department.id )}}" class="btn btn-primary">View</a>
+				<a href="{{ url_for('department_update', department_id = department.id )}}" class="btn btn-secondary">Edit</a>
+				<a href="{{ url_for('department_delete', department_id = department.id )}}" class="btn btn-danger">Delete</a>
+			</td>
+		</tr>
+		{% endfor %}
+		</tbody>
 	</table>
-	{% endfor %}
-
 </div>
 {% endblock %}
