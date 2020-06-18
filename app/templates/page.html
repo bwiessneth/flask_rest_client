@@ -1,3 +1,5 @@
+{% set active_page = active_page|default('index') -%}
+
 <!doctype html>
 <html lang="en">
 	<head>
@@ -22,13 +24,10 @@
 			</button>
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav">
-					<li class="nav-item active">
-						<a class="nav-link" href="{{ url_for('index')}}">Home</a>
-					</li>
-					<li class="nav-item">
+					<li class="nav-item {% if active_page == 'user' %}active{% endif %}">
 						<a class="nav-link" href="{{ url_for('user_list')}}">User</a>
 					</li>
-					<li class="nav-item">
+					<li class="nav-item {% if active_page == 'department' %}active{% endif %}">
 						<a class="nav-link" href="{{ url_for('department_list')}}">Departments</a>
 					</li>					
 				</ul>
