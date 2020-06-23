@@ -24,10 +24,17 @@ def user_list():
 
 @app.route("/user/<user_id>")
 def user(user_id=None):
-	r = requests.get(url=api_url + api_user_endpoint + '/' + user_id)
-	if r.status_code == 200:
-		d = json.loads(r.text)			
-		return render_template('user_view.html', user=d)
+	user_req = requests.get(url=api_url + api_user_endpoint + '/' + user_id)
+	user_data = json.loads(user_req.text)
+
+	if user_data["_links"]["department"]:
+		department = 1
+		department_req = requests.get(json.loads(user_req.text)["_links"]["department"])
+		department_data = json.loads(department_req.text)
+	else:
+		department_data = None
+		
+	return render_template('user_view.html', user=user_data, department=department_data)
 
 
 @app.route("/user/create", methods=['GET', 'POST'])
