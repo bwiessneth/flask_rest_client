@@ -28,7 +28,6 @@ def user(user_id=None):
 	user_data = json.loads(user_req.text)
 
 	if user_data["_links"]["department"]:
-		department = 1
 		department_req = requests.get(json.loads(user_req.text)["_links"]["department"])
 		department_data = json.loads(department_req.text)
 	else:
@@ -47,21 +46,32 @@ def user_create():
 	else:
 		r = requests.get(url=api_url + api_user_endpoint + '/' + '1')
 		d = json.loads(r.text)
-		print(d)
 		return render_template('user_create.html', user=d)
 
 
 @app.route("/user/update/<user_id>", methods=['GET', 'POST'])
 def user_update(user_id):
+	departments_req = requests.get(url=api_url + api_department_endpoint)
+	departments_data = json.loads(departments_req.text)
+	departments_data.append(None)
+
 	if request.method == 'POST':
 		headers = {'Content-type': 'application/json'}
 		j = json.dumps(request.form)
-		r = requests.patch(url=api_url + api_user_endpoint + '/' + user_id, data=j, headers=headers)
+		user_req = requests.patch(url=api_url + api_user_endpoint + '/' + user_id, data=j, headers=headers)
 		return redirect(url_for('user_list'))
 	else:
-		r = requests.get(url=api_url + api_user_endpoint + '/' + user_id)
-		user = json.loads(r.text)
-		return render_template('user_update.html', user=user)
+		user_req = requests.get(url=api_url + api_user_endpoint + '/' + user_id)
+		user_data = json.loads(user_req.text)
+
+		if user_data["_links"]["department"]:
+			department_req = requests.get(json.loads(user_req.text)["_links"]["department"])
+			department_data = json.loads(department_req.text)
+			user_data["department_name"] = department_data["name"]
+		else:
+			department_data = None
+
+		return render_template('user_update.html', user=user_data, departments=departments_data)
 
 @app.route("/user/delete/<user_id>")
 def user_delete(user_id):
