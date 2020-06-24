@@ -57,8 +57,8 @@ def user_update(user_id):
 
 	if request.method == 'POST':
 		headers = {'Content-type': 'application/json'}
-		j = json.dumps(request.form)
-		user_req = requests.patch(url=api_url + api_user_endpoint + '/' + user_id, data=j, headers=headers)
+		form_data = json.dumps(request.form)
+		user_req = requests.patch(url=api_url + api_user_endpoint + '/' + user_id, data=form_data, headers=headers)
 		return redirect(url_for('user_list'))
 	else:
 		user_req = requests.get(url=api_url + api_user_endpoint + '/' + user_id)
