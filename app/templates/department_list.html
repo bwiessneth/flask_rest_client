@@ -3,7 +3,9 @@
 
 {% block content %}
 <div class="container">
-	<a href="{{ url_for('department_create' )}}" class="btn btn-primary">Add Department</a>
+	{% if show_department_create %}
+	<a href="{{ url_for('department_create' )}}" class="btn btn-primary">Create Department</a>
+	{% endif %}
 	
 	<table class="table table-striped" style="margin-top: 1em">
 		<thead>
@@ -19,7 +21,7 @@
 		<tr>
 			<th scope="row">{{ department.id }}</th>
 			<td>{{ department.name }}</td>
-			<td>{{ department.users|length }}</td>
+			<td><a href="{{ url_for('department_user_list', department_id = department.id )}}">{{ department.users|length }}</a></td>
 			<td>
 				<a href="{{ url_for('department', department_id = department.id )}}" class="btn btn-primary">View</a>
 				<a href="{{ url_for('department_update', department_id = department.id )}}" class="btn btn-secondary">Edit</a>

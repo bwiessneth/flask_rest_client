@@ -3,7 +3,9 @@
 
 {% block content %}
 <div class="container">
-	<a href="{{ url_for('user_create' )}}" class="btn btn-primary">Add User</a>
+	{% if show_user_create %}
+	<a href="{{ url_for('user_create' )}}" class="btn btn-primary">Create User</a>
+	{% endif %}
 	
 	<table class="table table-striped" style="margin-top: 1em">
 		<thead>
