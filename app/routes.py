@@ -3,10 +3,10 @@ import requests
 from app import app
 from flask import render_template, redirect, url_for, request, flash, abort
 
-api_url = 'https://bewi.uber.space/flask_rest_api/api/v0/'
-# api_url = 'http://localhost:1025/flask_rest_api/api/v0/'
-api_user_endpoint = 'user'
-api_department_endpoint = 'department'
+# api_url = 'https://bewi.uber.space/flask_rest_api/api/v0/'
+api_url = 'http://localhost:1025/flask_rest_api/api/v0/'
+api_user_endpoint = 'users'
+api_department_endpoint = 'departments'
 
 # Index endpoint
 @app.route("/")
@@ -20,7 +20,7 @@ def user_list():
 	r = requests.get(url=api_url + api_user_endpoint)
 	if r.status_code == 200:
 		d = json.loads(r.text)
-		return render_template('user_list.html', users=d, show_user_create=True)
+		return render_template('user_list.html', users=d["data"], show_user_create=True)
 	else:
 		abort(r.status_code)
 
