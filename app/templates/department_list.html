@@ -21,7 +21,7 @@
 		<tr>
 			<th scope="row">{{ department.id }}</th>
 			<td>{{ department.name }}</td>
-			<td><a href="{{ url_for('department_user_list', department_id = department.id )}}">{{ department.users|length }}</a></td>
+			<td><a href="{{ url_for('department_user_list', department_id = department.id )}}">{{ department.users_total }}</a></td>
 			<td>
 				<a href="{{ url_for('department', department_id = department.id )}}" class="btn btn-primary">View</a>
 				<a href="{{ url_for('department_update', department_id = department.id )}}" class="btn btn-secondary">Edit</a>

@@ -8,6 +8,7 @@ api_url = 'http://localhost:1025/flask_rest_api/api/v0/'
 api_user_endpoint = 'users'
 api_department_endpoint = 'departments'
 
+
 # Index endpoint
 @app.route("/")
 def index():
@@ -17,10 +18,11 @@ def index():
 
 @app.route("/user")
 def user_list():
-	r = requests.get(url=api_url + api_user_endpoint)
+	s = requests.session()
+	r = s.get(url=api_url + api_user_endpoint)
 	if r.status_code == 200:
-		d = json.loads(r.text)
-		return render_template('user_list.html', users=d["data"], show_user_create=True)
+		d = json.loads(r.text)["data"]
+		return render_template('user_list.html', users=d, show_user_create=True)
 	else:
 		abort(r.status_code)
 
@@ -28,11 +30,11 @@ def user_list():
 @app.route("/user/<user_id>")
 def user(user_id=None):
 	user_req = requests.get(url=api_url + api_user_endpoint + '/' + user_id)
-	user_data = json.loads(user_req.text)
+	user_data = json.loads(user_req.text)["data"]
 
 	if user_data["_links"]["department"]:
-		department_req = requests.get(json.loads(user_req.text)["_links"]["department"])
-		department_data = json.loads(department_req.text)
+		department_req = requests.get(user_data["_links"]["department"])
+		department_data = json.loads(department_req.text)["data"]
 	else:
 		department_data = None
 
@@ -61,11 +63,11 @@ def user_update(user_id):
 		return redirect(url_for('user_list'))
 	else:
 		user_req = requests.get(url=api_url + api_user_endpoint + '/' + user_id)
-		user_data = json.loads(user_req.text)
+		user_data = json.loads(user_req.text)["data"]
 
 		if user_data["_links"]["department"]:
-			department_req = requests.get(json.loads(user_req.text)["_links"]["department"])
-			department_data = json.loads(department_req.text)
+			department_req = requests.get(user_data["_links"]["department"])
+			department_data = json.loads(department_req.text)["data"]
 			user_data["department_name"] = department_data["name"]
 		else:
 			department_data = None
@@ -85,12 +87,21 @@ def user_delete(user_id):
 
 @app.route("/department")
 def department_list():
-	r = requests.get(url=api_url + api_department_endpoint)
+	s = requests.session()	
+	r = s.get(url=api_url + api_department_endpoint)
 	if r.status_code == 200:
-		d = json.loads(r.text)
-		return render_template('department_list.html', departments=d, show_department_create=True)
+		department_resp = json.loads(r.text)
 	else:
 		abort(r.status_code)
+
+	for department in department_resp["data"]:
+		r = requests.get(url=department["_links"]["users"])
+		if r.status_code == 200:
+			department["users_total"] = json.loads(r.text)["total"]
+		else:
+			abort(r.status_code)
+
+	return render_template('department_list.html', departments=department_resp["data"], show_department_create=True)
 
 
 @app.route("/department/<department_id>")
@@ -141,7 +152,7 @@ def department_delete(department_id):
 def department_user_list(department_id=None):
 	r = requests.get(url=api_url + api_department_endpoint + '/' + department_id + '/users')
 	if r.status_code == 200:
-		d = json.loads(r.text)
-		return render_template('user_list.html', users=d['users'])
+		d = json.loads(r.text)["data"]
+		return render_template('user_list.html', users=d)
 	else:
 		abort(r.status_code)
