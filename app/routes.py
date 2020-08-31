@@ -65,15 +65,8 @@ def user_update(user_id):
 		user_req = requests.get(url=api_url + api_user_endpoint + '/' + user_id)
 		user_data = json.loads(user_req.text)["data"]
 
-		if user_data["_links"]["department"]:
-			department_req = requests.get(user_data["_links"]["department"])
-			department_data = json.loads(department_req.text)["data"]
-			user_data["department_name"] = department_data["name"]
-		else:
-			department_data = None
-
 		departments_req = requests.get(url=api_url + api_department_endpoint)
-		departments_data = json.loads(departments_req.text)
+		departments_data = json.loads(departments_req.text)["data"]
 		departments_data.append(None)			
 
 		return render_template('user_update.html', user=user_data, departments=departments_data)
