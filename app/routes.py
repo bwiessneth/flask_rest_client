@@ -4,7 +4,7 @@ from app import app
 from flask import render_template, redirect, url_for, request, flash, abort
 
 # api_url = 'https://bewi.uber.space/flask_rest_api/api/v0/'
-api_url = 'http://localhost:1025/flask_rest_api/api/v0/'
+api_url = 'http://localhost:1025/'
 api_user_endpoint = 'users'
 api_department_endpoint = 'departments'
 
