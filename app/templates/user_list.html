@@ -7,7 +7,7 @@
 	<a href="{{ url_for('user_create' )}}" class="btn btn-primary">Create User</a>
 	{% endif %}
 	
-	<table class="table table-striped" style="margin-top: 1em">
+	<table class="table table-sm table-striped" style="margin-top: 1em">
 		<thead>
 			<tr>
 				<th scope="col">ID</th>
@@ -23,9 +23,9 @@
 			<td>{{ user.username }}</td>
 			<td>{{ user.email }}</td>
 			<td>
-				<a href="{{ url_for('user', user_id = user.id )}}" class="btn btn-primary">View</a>
-				<a href="{{ url_for('user_update', user_id = user.id )}}" class="btn btn-secondary">Edit</a>
-				<a href="{{ url_for('user_delete', user_id = user.id )}}" class="btn btn-danger">Delete</a>
+				<a href="{{ url_for('user', user_id = user.id )}}" class="btn btn-sm btn-outline-primary">View</a>
+				<a href="{{ url_for('user_update', user_id = user.id )}}" class="btn btn-sm btn-outline-secondary">Edit</a>
+				<a href="{{ url_for('user_delete', user_id = user.id )}}" class="btn btn-sm btn-outline-danger">Delete</a>
 			</td>
 		</tr>
 		{% endfor %}
